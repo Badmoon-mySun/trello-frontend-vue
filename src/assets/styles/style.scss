@@ -1,0 +1,58 @@
+@import "./variables.scss";
+@import "./mixins.scss";
+
+html {
+  font-size: 10px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+
+  overflow: hidden;
+  font-family: 'Comfortaa', sans-serif;
+}
+
+*, *:after, *:before {
+  box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5 {
+  margin: 0;
+}
+
+.container-fluid {
+  width: 100%;
+  height: 100%;
+}
+
+@media screen and (min-width: 1380px) {
+  html {
+    font-size: 11px;
+  }
+}
+@media screen and (min-width: 1480px) {
+  html {
+    font-size: 12px;
+  }
+}
+@media screen and (min-width: 1580px) {
+  html {
+    font-size: 13px;
+  }
+}
+@media screen and (min-width: 1624px) {
+  html {
+    font-size: 14px;
+  }
+}
+@media screen and (min-width: 1724px) {
+  html {
+    font-size: 15px;
+  }
+}
+@media screen and (min-width: 1824px) {
+  html {
+    font-size: 16px;
+  }
+}

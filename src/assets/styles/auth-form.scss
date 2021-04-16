@@ -1,0 +1,14 @@
+.form {
+  &__input_field {
+    margin-bottom: 2rem;
+
+    &.submit_btn > input {
+      cursor: pointer;
+      background-color: $auth-blue;
+      font-weight: bold;
+      color: white;
+
+      @include auth-input-border;
+    }
+  }
+}
