@@ -11,7 +11,7 @@
       <button class="collaborators_btn" type="button">Пригласить</button>
     </div>
     <button class="menu__chat_btn" type="button">
-      <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+      <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="32" height="32"
            viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
           <g>
             <g>
