@@ -64,7 +64,7 @@ export default {
   align-items: center;
 
   color: $header-font-color;
-  border: solid 1px white;
+  //border: solid 1px white;
 }
 
 .menu {
@@ -73,6 +73,7 @@ export default {
     font-size: 150%;
 
     @include header-btn-background;
+    cursor: default;
   }
 
   &__collaborators {

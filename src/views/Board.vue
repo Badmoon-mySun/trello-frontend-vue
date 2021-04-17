@@ -5,15 +5,11 @@
     <board-menu/>
 
     <div class="board__workspace">
-      <div class="workspace__cards_holder">
-        <div class="cards_holder__card_header">
-          <span class="cards_header__title">Полезное</span>
-          <a class="card__header__button">X</a>
-        </div>
-        <div class="cards_holder__cards">
-          <div class="card">
-            HEllO
-          </div>
+      <div class="workspace__col" v-for="i in '123'">
+        <div class="col">
+
+          <cards-holder/>
+
         </div>
       </div>
     </div>
@@ -21,13 +17,17 @@
 </template>
 
 <script>
-import {Container, Draggable} from 'vue-smooth-dnd'
 import LightHeader from "../components/main/LightHeader";
 import BoardMenu from "../components/board/BoardMenu";
+import {DragManager} from "../utils/DragManager";
+import CardsHolder from "../components/board/CardsHolder";
 
 export default {
   name: "Board",
-  components: {BoardMenu, LightHeader}
+  components: {CardsHolder, BoardMenu, LightHeader},
+  mounted() {
+
+  }
 }
 
 </script>
@@ -66,39 +66,12 @@ body {
   }
 }
 
-.workspace__cards_holder {
-  background-color: #ebecf0;
-  border-radius: .5rem;
-
-  min-width: 30rem;
-  max-width: 30rem;
-  max-height: 100%;
-
-  overflow-y: auto;
-  overflow-x: hidden;
+.workspace__col {
+  min-width: $cards-col-width;
+  max-width: $cards-col-width;
+  height: 100%;
 
   margin: 0 .4rem;
-  color: #172b4d;
-}
-
-.cards_holder {
-  &__card_header {
-    background-color: grey;
-    width: 100%;
-    height: 4rem;
-    padding: 0 1rem;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-}
-
-.cards_header {
-  &__title {
-    font-size: 160%;
-    font-weight: bold;
-  }
 }
 
 </style>

@@ -21,11 +21,14 @@
   padding: 0 1.5rem;
   height: 90%;
 
+  cursor: pointer;
+
   display: flex;
   align-items: center;
 }
 
 @mixin header-btn {
+  cursor: pointer;
   border: none;
 
   @include header-btn-background;
@@ -38,4 +41,26 @@
     background: rgba(0,0,0,.35);
     color: $header-font-color;
   }
+}
+
+@mixin card-background {
+  background-color: white;
+
+  border-radius: .4rem;
+  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .3);
+}
+
+@mixin add_card_btn {
+  background: transparent;
+  border: none;
+  color: white;
+
+  padding: .6rem .8rem;
+  font-size: 140%;
+
+  border-radius: .3rem;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
 }

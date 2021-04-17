@@ -7,3 +7,6 @@ $header-font-color: rgba(255, 255, 255, .35);
 $header-user-avatar-size: calc(#{$header-height} - 1rem);
 
 $board-menu-height: 4.5rem;
+
+$cards-col-width: 30rem;
+$card-width: calc(#{$cards-col-width} - 2rem);
