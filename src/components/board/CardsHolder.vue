@@ -45,7 +45,7 @@ export default {
   margin: .5rem 0;
 
   @include card-background;
-  background-color: grey;
+  background-color: #c3c3c3;
 }
 </style>
 

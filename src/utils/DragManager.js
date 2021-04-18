@@ -115,7 +115,8 @@ export default new function () {
             position: card.position || '',
             left: card.left || '',
             top: card.top || '',
-            zIndex: card.zIndex || ''
+            zIndex: card.zIndex || '',
+            transform: card.transform || ''
         };
 
         // создать тень для карты
@@ -128,7 +129,8 @@ export default new function () {
             card.style.position = old.position;
             card.style.left = old.left;
             card.style.top = old.top;
-            card.style.zIndex = old.zIndex
+            card.style.zIndex = old.zIndex;
+            card.style.transform = old.transform;
         };
 
         return card;
@@ -141,6 +143,7 @@ export default new function () {
         document.body.appendChild(card);
         card.style.zIndex = 9999;
         card.style.position = 'absolute';
+        card.style.transform = 'rotate(5deg)'
     }
 
     function finishDrag() {
