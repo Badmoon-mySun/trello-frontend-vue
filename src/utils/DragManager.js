@@ -1,27 +1,25 @@
-export let DragManager = new function () {
+export default new function () {
 
     /**
      * составной объект для хранения информации о переносе:
      * {
      *   elem - элемент, на котором была зажата мышь
-     *   avatar - аватар
+     *   card - карточка
      *   downX/downY - координаты, на которых был mousedown
      *   shiftX/shiftY - относительный сдвиг курсора от угла элемента
      * }
      */
+
     let dragObject = {};
 
-    let self = this;
-
     function onMouseDown(e) {
-
         if (e.which !== 1) return;
 
         let elem = e.target.closest('.draggable');
+
         if (!elem) return;
 
         dragObject.elem = elem;
-
         // запомним, что элемент нажат на текущих координатах pageX/pageY
         dragObject.downX = e.pageX;
         dragObject.downY = e.pageY;
@@ -30,9 +28,11 @@ export let DragManager = new function () {
     }
 
     function onMouseMove(e) {
-        if (!dragObject.elem) return; // элемент не зажат
+        // элемент не зажат
+        if (!dragObject.elem) return;
 
-        if (!dragObject.avatar) { // если перенос не начат...
+        // если перенос не начат...
+        if (!dragObject.card) {
             let moveX = e.pageX - dragObject.downX;
             let moveY = e.pageY - dragObject.downY;
 
@@ -41,32 +41,65 @@ export let DragManager = new function () {
                 return;
             }
 
-            // начинаем перенос
-            dragObject.avatar = createAvatar(e); // создать аватар
-            if (!dragObject.avatar) { // отмена переноса, нельзя "захватить" за эту часть элемента
+            // начинаем перенос, создать карту
+            dragObject.card = createCard(e);
+
+            // отмена переноса, нельзя "захватить" за эту часть элемента
+            if (!dragObject.card) {
                 dragObject = {};
                 return;
             }
 
-            // аватар создан успешно
+            // карта создана успешно
             // создать вспомогательные свойства shiftX/shiftY
-            let coords = getCoords(dragObject.avatar);
+            let coords = getCoords(dragObject.card);
             dragObject.shiftX = dragObject.downX - coords.left;
             dragObject.shiftY = dragObject.downY - coords.top;
 
-            startDrag(e); // отобразить начало переноса
+            // отобразить начало переноса
+            startDrag(e);
         }
 
         // отобразить перенос объекта при каждом движении мыши
-        dragObject.avatar.style.left = e.pageX - dragObject.shiftX + 'px';
-        dragObject.avatar.style.top = e.pageY - dragObject.shiftY + 'px';
+        dragObject.card.style.left = e.pageX - dragObject.shiftX + 'px';
+        dragObject.card.style.top = e.pageY - dragObject.shiftY + 'px';
+
+        // следим за переносом карты, перемещая тень при необходимости
+        let droppable = findDroppable(e);
+
+        // если курсор в нутри окна
+        if (droppable !== null) {
+            let holder = droppable.querySelector(".cards_holder__cards")
+
+            // скрыть переносимый элемент
+            dragObject.card.hidden = true;
+
+            // получить самый вложенный элемент под курсором мыши
+            let elem = document.elementFromPoint(e.clientX, e.clientY);
+
+            // показать переносимый элемент обратно
+            dragObject.card.hidden = false;
+
+            if (holder.contains(elem) && holder !== elem) {
+                if (getCoords(elem).top + elem.clientHeight / 2 > e.clientY) {
+                    holder.insertBefore(dragObject.shadowElement, elem)
+                } else {
+                    holder.insertBefore(dragObject.shadowElement, elem.nextSibling)
+                }
+            } else if (getCoords(holder).top >= e.clientY) {
+                holder.insertBefore(dragObject.shadowElement, holder.firstChild)
+            } else if (getCoords(holder).bottom < e.clientY) {
+                holder.appendChild(dragObject.shadowElement)
+            }
+        }
 
         return false;
     }
 
     function onMouseUp(e) {
-        if (dragObject.avatar) { // если перенос идет
-            finishDrag(e);
+        // если перенос идет
+        if (dragObject.card) {
+            finishDrag();
         }
 
         // перенос либо не начинался, либо завершился
@@ -74,61 +107,57 @@ export let DragManager = new function () {
         dragObject = {};
     }
 
-    function finishDrag(e) {
-        let dropElem = findDroppable(e);
-
-        if (!dropElem) {
-            console.log('drag cancel')
-            self.onDragCancel(dragObject);
-        } else {
-            console.log('drag end')
-            self.onDragEnd(dragObject, dropElem);
-        }
-    }
-
-    function createAvatar() {
-
+    function createCard() {
         // запомнить старые свойства, чтобы вернуться к ним при отмене переноса
-        let avatar = dragObject.elem;
+        let card = dragObject.elem;
+
         let old = {
-            parent: avatar.parentNode,
-            nextSibling: avatar.nextSibling,
-            position: avatar.position || '',
-            left: avatar.left || '',
-            top: avatar.top || '',
-            zIndex: avatar.zIndex || ''
+            position: card.position || '',
+            left: card.left || '',
+            top: card.top || '',
+            zIndex: card.zIndex || ''
         };
 
-        // функция для отмены переноса
-        avatar.rollback = function () {
-            old.parent.insertBefore(avatar, old.nextSibling);
-            avatar.style.position = old.position;
-            avatar.style.left = old.left;
-            avatar.style.top = old.top;
-            avatar.style.zIndex = old.zIndex
+        // создать тень для карты
+        let shadowElement = document.createElement("div")
+        shadowElement.classList.add('card_shadow')
+        dragObject.shadowElement = shadowElement;
+
+        // функция для отмены стилей переноса
+        card.rollbackStyle = function () {
+            card.style.position = old.position;
+            card.style.left = old.left;
+            card.style.top = old.top;
+            card.style.zIndex = old.zIndex
         };
 
-        return avatar;
+        return card;
     }
 
     function startDrag() {
-        let avatar = dragObject.avatar;
+        let card = dragObject.card;
 
         // инициировать начало переноса
-        document.body.appendChild(avatar);
-        avatar.style.zIndex = 9999;
-        avatar.style.position = 'absolute';
+        document.body.appendChild(card);
+        card.style.zIndex = 9999;
+        card.style.position = 'absolute';
+    }
+
+    function finishDrag() {
+        // заменяем тень карточкой
+        dragObject.shadowElement.replaceWith(dragObject.card)
+        dragObject.card.rollbackStyle()
     }
 
     function findDroppable(event) {
         // спрячем переносимый элемент
-        dragObject.avatar.hidden = true;
+        dragObject.card.hidden = true;
 
         // получить самый вложенный элемент под курсором мыши
         let elem = document.elementFromPoint(event.clientX, event.clientY);
 
         // показать переносимый элемент обратно
-        dragObject.avatar.hidden = false;
+        dragObject.card.hidden = false;
 
         if (elem == null) {
             // такое возможно, если курсор мыши "вылетел" за границу окна
@@ -141,18 +170,6 @@ export let DragManager = new function () {
     document.onmousemove = onMouseMove;
     document.onmouseup = onMouseUp;
     document.onmousedown = onMouseDown;
-
-    this.onDragEnd = function(dragObject, dropElem) {
-        // dragObject.elem.style.display = 'none';
-        // dropElem.classList.add('computer-smile');
-        // setTimeout(function() {
-        //     dropElem.classList.remove('computer-smile');
-        // }, 200);
-    };
-    this.onDragCancel = function(dragObject) {
-        dragObject.avatar.rollback();
-    };
-
 };
 
 
@@ -161,7 +178,8 @@ function getCoords(elem) { // кроме IE8-
 
     return {
         top: box.top + pageYOffset,
-        left: box.left + pageXOffset
+        left: box.left + pageXOffset,
+        bottom: box.bottom + pageYOffset
     };
 
 }

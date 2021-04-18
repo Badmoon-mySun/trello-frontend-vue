@@ -1,32 +1,30 @@
 <template>
-  <div class="cards_holder">
-    <div class="cards_holder__cards_header">
-      <span class="cards_header__title">Полезное</span>
-      <a class="card__header__button">X</a>
-    </div>
-    <div class="cards_holder__cards">
-      <div class="card">
-        HEllO
+  <div class="col droppable">
+    <div class="cards_holder">
+      <div class="cards_holder__cards_header">
+        <span class="cards_header__title">Полезное</span>
+        <button class="cards_header__button" type="button">
+          <img src="../../assets/img/folder.svg" alt="Архивировать" width="16" height="16">
+        </button>
       </div>
-      <div class="card">
-        HEllO
+      <div class="cards_holder__cards">
+        <div class="card draggable" v-for="i in '15'">
+          HEllO{{i}}
+        </div>
       </div>
-      <div class="card">
-        HEllO
-      </div>
-    </div>
-    <div class="cards_holder__cards_bottom">
-      <button class="cards_bottom__add_card_btn" id="add_card_btn" type="button" v-on:click="showCardAdding">
-        <img src="../../assets/img/plus.svg" alt="" width="32" height="32">
-        <span>Добавить еще одну карточку</span>
-      </button>
-      <div class="cards_bottom__input_add_card" id="add_card_input">
-        <textarea class="input_add_card__textarea" placeholder="Введите заголовок для этой карточки"></textarea>
-        <div class="input_add_card__add_btn_group">
-          <button class="add_btn_group__add" type="button">Добавить карточку</button>
-          <button class="add_btn_group__close" type="button" v-on:click="hideCardAdding">
-            <img src="../../assets/img/plus.svg" alt="Delete" width="16" height="16">
-          </button>
+      <div class="cards_holder__cards_bottom">
+        <button class="cards_bottom__add_card_btn" id="add_card_btn" type="button" v-on:click="showCardAdding">
+          <img src="../../assets/img/plus.svg" alt="" width="32" height="32">
+          <span>Добавить еще одну карточку</span>
+        </button>
+        <div class="cards_bottom__input_add_card" id="add_card_input">
+          <textarea class="input_add_card__textarea" placeholder="Введите заголовок для этой карточки"></textarea>
+          <div class="input_add_card__add_btn_group">
+            <button class="add_btn_group__add" type="button">Добавить карточку</button>
+            <button class="add_btn_group__close" type="button" v-on:click="hideCardAdding">
+              <img src="../../assets/img/plus.svg" alt="Delete" width="16" height="16">
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -36,13 +34,26 @@
 <script>
 export default {
   name: "CardsHolder",
-  methods: {
-
-  }
+  methods: {}
 }
 </script>
 
+<style lang="scss">
+.card_shadow {
+  height: 5rem;
+  width: $card-width;
+  margin: .5rem 0;
+
+  @include card-background;
+  background-color: grey;
+}
+</style>
+
 <style lang="scss" scoped>
+.col {
+  height: 100%;
+}
+
 .cards_holder {
   background-color: #ebecf0;
   border-radius: .3rem;
@@ -51,19 +62,26 @@ export default {
   padding: 0 1rem;
   color: #6b778c;
 
-  overflow-y: auto;
-  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
 
   &__cards_header {
     width: 100%;
-    height: 3.5rem;
-    padding: 0 1rem;
+    padding: 1.2rem 1rem;
 
     color: #172b4d;
 
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+
+  &__cards {
+    width: 100%;
+
+    flex-grow: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
   &__cards_bottom {
@@ -78,12 +96,24 @@ export default {
     font-size: 160%;
     font-weight: bold;
   }
+
+  &__button {
+    @include card_btn;
+
+    & img {
+      width: 1.6rem;
+      height: 1.6rem;
+    }
+  }
 }
 
 .card {
   height: 5rem;
   width: $card-width;
   margin: .5rem 0;
+
+  font-size: 160%;
+  font-weight: bold;
 
   @include card-background;
 }
@@ -148,7 +178,7 @@ export default {
 
 .add_btn_group {
   &__add {
-    @include add_card_btn;
+    @include card_btn;
 
     background-color: #5aac44;
     margin-right: .5rem;
@@ -163,16 +193,12 @@ export default {
   }
 
   &__close {
-    @include add_card_btn;
+    @include card_btn;
 
     & img {
       transform: rotate(45deg);
       width: 1.9rem;
       height: 1.9rem;
-    }
-
-    &:hover {
-      background-color: rgba(0, 0, 0, .05);
     }
   }
 }

@@ -50,7 +50,7 @@
   box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .3);
 }
 
-@mixin add_card_btn {
+@mixin card_btn {
   background: transparent;
   border: none;
   color: white;
@@ -63,4 +63,8 @@
 
   display: flex;
   align-items: center;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, .05);
+  }
 }

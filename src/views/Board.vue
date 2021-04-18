@@ -6,11 +6,7 @@
 
     <div class="board__workspace">
       <div class="workspace__col" v-for="i in '123'">
-        <div class="col">
-
           <cards-holder/>
-
-        </div>
       </div>
     </div>
   </main>
@@ -19,7 +15,7 @@
 <script>
 import LightHeader from "../components/main/LightHeader";
 import BoardMenu from "../components/board/BoardMenu";
-import {DragManager} from "../utils/DragManager";
+import DragManager from "../utils/DragManager";
 import CardsHolder from "../components/board/CardsHolder";
 
 export default {
@@ -73,5 +69,4 @@ body {
 
   margin: 0 .4rem;
 }
-
 </style>
