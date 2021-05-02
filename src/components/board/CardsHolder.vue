@@ -13,15 +13,15 @@
         </div>
       </div>
       <div class="cards_holder__cards_bottom">
-        <button class="cards_bottom__add_card_btn" id="add_card_btn" type="button" v-on:click="showCardAdding">
+        <button class="cards_bottom__add_card_btn" type="button" v-on:click="showCardAdding($event)">
           <img src="../../assets/img/plus.svg" alt="" width="32" height="32">
-          <span>Добавить еще одну карточку</span>
+          <span>Добавить карточку</span>
         </button>
-        <div class="cards_bottom__input_add_card" id="add_card_input">
+        <div class="cards_bottom__input_add_card">
           <textarea class="input_add_card__textarea" placeholder="Введите заголовок для этой карточки"></textarea>
           <div class="input_add_card__add_btn_group">
             <button class="add_btn_group__add" type="button">Добавить карточку</button>
-            <button class="add_btn_group__close" type="button" v-on:click="hideCardAdding">
+            <button class="add_btn_group__close" type="button" v-on:click="hideCardAdding($event)">
               <img src="../../assets/img/plus.svg" alt="Delete" width="16" height="16">
             </button>
           </div>
@@ -34,7 +34,24 @@
 <script>
 export default {
   name: "CardsHolder",
-  methods: {}
+  methods: {
+    showCardAdding(event) {
+      let btn = event.currentTarget
+      let inputGroup = btn.parentNode.querySelector('.cards_bottom__input_add_card')
+
+      btn.style.display = 'none';
+      inputGroup.style.display = 'block';
+    },
+
+    hideCardAdding(event) {
+      let inputGroup = event.currentTarget.parentNode.parentNode
+      let btn = inputGroup.parentNode.querySelector('.cards_bottom__add_card_btn')
+
+      btn.style.display = 'block';
+      inputGroup.style.display = 'none'
+    }
+  },
+
 }
 </script>
 
@@ -85,7 +102,7 @@ export default {
   }
 
   &__cards_bottom {
-    margin: 1rem .5rem;
+    margin: 0 .5rem 1rem .5rem;
     width: calc(100% - 1rem);
   }
 
@@ -148,6 +165,10 @@ export default {
     &:active {
       background-color: rgba(0, 0, 0, .1);
     }
+  }
+
+  &__input_add_card {
+    display: none;
   }
 }
 
