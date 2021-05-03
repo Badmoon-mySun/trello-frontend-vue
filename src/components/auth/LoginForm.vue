@@ -1,16 +1,19 @@
 <template>
-  <form class="form" method="post">
+  <form class="form" method="post" @submit.prevent="onSubmit">
+    <p class="form__error">{{error}}</p>
     <light-custom-text-input class="form__input_field"
        label="Email"
        id="email"
        type="email"
        placeholder="example@google.com"
+       v-model="form.email"
     />
     <light-custom-text-input class="form__input_field"
        label="Password"
        id="password"
        type="password"
        placeholder="example@google.com"
+       v-model="form.password"
     />
     <div class="form__input_remember_me">
       <custom-check-box/>
@@ -25,10 +28,35 @@
 <script>
 import LightCustomTextInput from "./LightCustomTextInput";
 import CustomCheckBox from "./CustomCheckBox";
+import {mapActions} from "vuex";
 
 export default {
   name: "LoginForm",
-  components: {CustomCheckBox, LightCustomTextInput}
+  components: {CustomCheckBox, LightCustomTextInput},
+  data() {
+    return {
+      form: {
+        email: '',
+        password: ''
+      },
+      error: ''
+    }
+  },
+  methods: {
+    ...mapActions({
+      singIn: 'auth/singIn'
+    }),
+
+    async onSubmit() {
+      let response = await this.singIn(this.form)
+
+      if (response) {
+        await this.$router.push({ name: 'Board' })
+      } else {
+        this.error = 'Email or password is not right'
+      }
+    }
+  }
 }
 </script>
 

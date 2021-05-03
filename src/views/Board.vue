@@ -1,9 +1,7 @@
 <template>
   <light-header/>
   <main class="main">
-
     <board-menu/>
-
     <div class="board__workspace">
       <div class="workspace__col" v-for="i in '123'">
           <cards-holder/>
@@ -15,7 +13,6 @@
 <script>
 import LightHeader from "../components/main/LightHeader";
 import BoardMenu from "../components/board/BoardMenu";
-import DragManager from "../utils/DragManager";
 import CardsHolder from "../components/board/CardsHolder";
 
 export default {
