@@ -2,14 +2,14 @@
   <div class="col droppable">
     <div class="cards_holder">
       <div class="cards_holder__cards_header">
-        <span class="cards_header__title">Полезное</span>
+        <span class="cards_header__title">{{list.title}}</span>
         <button class="cards_header__button" type="button">
           <img src="../../assets/img/folder.svg" alt="Архивировать" width="16" height="16">
         </button>
       </div>
       <div class="cards_holder__cards">
-        <div class="card draggable" v-for="i in '15'">
-          HEllO{{i}}
+        <div @click="cardModal = true" class="card draggable" v-for="card in list.cards">
+          {{card.title}}
         </div>
       </div>
       <div class="cards_holder__cards_bottom">
@@ -29,11 +29,25 @@
       </div>
     </div>
   </div>
+  <teleport to="body">
+    <card-modal v-if="cardModal"/>
+  </teleport>
 </template>
 
 <script>
+import CardModal from "./CardModal";
 export default {
   name: "CardsHolder",
+  components: {CardModal},
+  props: ['list'],
+  data() {
+    return {
+      cardModal: false,
+    }
+  },
+  mounted() {
+    console.log(this.list)
+  },
   methods: {
     showCardAdding(event) {
       let btn = event.currentTarget

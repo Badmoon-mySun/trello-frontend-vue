@@ -34,7 +34,7 @@ const routes = [
     ]
   },
   {
-    path: '/board',
+    path: '/board/:boardId',
     name: 'Board',
     component: () => import('../views/Board.vue')
   },

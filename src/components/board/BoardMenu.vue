@@ -1,12 +1,10 @@
 <template>
   <div class="board__menu">
     <div class="menu__board_name">
-      <h2 class="board_name">Сайт "сотка"</h2>
+      <h2 class="board_name">{{name}}</h2>
     </div>
-    <div class="menu__collaborators">
-      <img class="collaborators_item" src="../../assets/img/women.svg" alt="">
-      <img class="collaborators_item" src="../../assets/img/climbing-goals.svg" alt="">
-      <img class="collaborators_item" src="../../assets/img/logo.png" alt="">
+    <div class="menu__collaborators" v-for="member in members">
+      <!--   TODO avatar like trello   -->
       <img class="collaborators_item" src="../../assets/img/women.svg" alt="">
       <button class="collaborators_btn" type="button">Пригласить</button>
     </div>
@@ -49,7 +47,8 @@
 
 <script>
 export default {
-  name: "BoardMenu"
+  name: "BoardMenu",
+  props: ['members', 'name']
 }
 </script>
 

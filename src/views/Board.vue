@@ -1,10 +1,10 @@
 <template>
   <light-header/>
   <main class="main">
-    <board-menu/>
+    <board-menu v-bind:members="members" v-bind:name="boardName"/>
     <div class="board__workspace">
-      <div class="workspace__col" v-for="i in '123'">
-          <cards-holder/>
+      <div class="workspace__col" v-for="list in cardLists">
+          <cards-holder v-bind:list="list"/>
       </div>
     </div>
   </main>
@@ -13,13 +13,32 @@
 <script>
 import LightHeader from "../components/main/LightHeader";
 import BoardMenu from "../components/board/BoardMenu";
+import DragManager from "../utils/DragManager";
 import CardsHolder from "../components/board/CardsHolder";
+import {mapGetters} from "vuex";
 
 export default {
   name: "Board",
   components: {CardsHolder, BoardMenu, LightHeader},
+  data() {
+    return {
+      boardId: this.$route.params.boardId,
+    }
+  },
   mounted() {
-
+    console.log(this.boardId)
+  },
+  computed: {
+    ...mapGetters({
+      cardLists: 'board/getCardLists',
+      boardName: 'board/getName',
+      members: 'board/getMembers'
+    })
+  },
+  methods: {
+    loadBoard(id) {
+      // TODO load board there
+    },
   }
 }
 
