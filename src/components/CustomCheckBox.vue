@@ -1,7 +1,7 @@
 <template>
   <div class="remember_me_input">
-    <input type="checkbox" id="cbx" style="display: none;">
-    <label for="cbx" class="check">
+    <label class="check">
+      <input type="checkbox" v-model="value" class="cbx" style="display: none;">
       <svg viewBox="0 0 18 18">
         <path
             d="M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"></path>
@@ -13,7 +13,17 @@
 
 <script>
 export default {
-  name: "CustomCheckBox"
+  name: "CustomCheckBox",
+  data() {
+    return {
+      value: true
+    }
+  },
+  watch: {
+    value(val) {
+      console.log(val)
+    }
+  }
 }
 </script>
 
@@ -59,16 +69,16 @@ export default {
   }
 }
 
-#cbx:checked + .check svg {
+.cbx:checked + svg {
   stroke: #4285f4;
 }
 
-#cbx:checked + .check svg path {
+.cbx:checked + svg path {
   stroke-dashoffset: 60;
   transition: all 0.3s linear;
 }
 
-#cbx:checked + .check svg polyline {
+.cbx:checked + svg polyline {
   stroke-dashoffset: 42;
   transition: all 0.2s linear;
   transition-delay: 0.15s;

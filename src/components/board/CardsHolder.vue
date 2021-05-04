@@ -30,7 +30,7 @@
     </div>
   </div>
   <teleport to="body">
-    <card-modal v-if="cardModal"/>
+    <card-modal/>
   </teleport>
 </template>
 
@@ -100,7 +100,7 @@ export default {
     width: 100%;
     padding: 1.2rem 1rem;
 
-    color: #172b4d;
+    color: $card-font-color;
 
     display: flex;
     justify-content: space-between;
@@ -183,50 +183,13 @@ export default {
 
   &__input_add_card {
     display: none;
-  }
-}
 
-.input_add_card {
-  &__textarea {
-    width: 100%;
-    height: 7rem;
-    padding: 1rem;
-
-    @include card-background;
-    border: none;
-    outline: none;
-    resize: none;
-
-    overflow: hidden;
-    overflow-wrap: break-word;
-
-    font-size: 130%;
-  }
-
-  &__add_btn_group {
-    margin-top: .5rem;
-    display: flex;
-    align-items: center;
+    @include card-input-holder;
   }
 }
 
 
 .add_btn_group {
-  &__add {
-    @include card_btn;
-
-    background-color: #5aac44;
-    margin-right: .5rem;
-
-    &:hover {
-      background-color: #6bc154;
-    }
-
-    &:active {
-      background-color: #489432;
-    }
-  }
-
   &__close {
     @include card_btn;
 

@@ -27,7 +27,7 @@
 
 <script>
 import LightCustomTextInput from "./LightCustomTextInput";
-import CustomCheckBox from "./CustomCheckBox";
+import CustomCheckBox from "../CustomCheckBox";
 import {mapActions} from "vuex";
 
 export default {

@@ -68,3 +68,73 @@
     background-color: rgba(0, 0, 0, .05);
   }
 }
+
+@mixin card-input-holder {
+  & textarea {
+    width: 100%;
+    height: 7rem;
+    padding: 1rem;
+
+    @include card-background;
+    border: none;
+    outline: none;
+    resize: none;
+
+    overflow: hidden;
+    overflow-wrap: break-word;
+
+    font-size: 130%;
+  }
+
+  & div {
+    margin-top: .5rem;
+    display: flex;
+    align-items: center;
+
+    & > button:first-child {
+      @include card_btn;
+
+      background-color: #5aac44;
+      margin-right: .5rem;
+
+      &:hover {
+        background-color: #6bc154;
+      }
+
+      &:active {
+        background-color: #489432;
+      }
+    }
+  }
+}
+
+@mixin card-module {
+  margin-bottom: 2rem;
+
+  &__header {
+    margin-bottom: 1rem;
+
+    & .header__title {
+      display: flex;
+      align-items: center;
+
+      & .title__icon {
+        margin-right: 1.5rem;
+
+        & img {
+          width: 2rem;
+          height: 2rem;
+        }
+      }
+
+      & .title__text {
+        font-size: 200%;
+        font-weight: bold;
+      }
+    }
+  }
+
+  &__body {
+    margin-left: 3.5rem;
+  }
+}

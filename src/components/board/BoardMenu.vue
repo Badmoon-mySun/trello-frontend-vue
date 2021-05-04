@@ -63,7 +63,6 @@ export default {
   align-items: center;
 
   color: $header-font-color;
-  //border: solid 1px white;
 }
 
 .menu {
