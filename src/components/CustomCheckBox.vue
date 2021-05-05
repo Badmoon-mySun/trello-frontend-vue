@@ -16,12 +16,7 @@ export default {
   name: "CustomCheckBox",
   data() {
     return {
-      value: true
-    }
-  },
-  watch: {
-    value(val) {
-      console.log(val)
+      value: false
     }
   }
 }

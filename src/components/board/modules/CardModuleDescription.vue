@@ -34,6 +34,11 @@ export default {
   &__body {
     &_input {
       @include card-input-holder;
+
+      & textarea {
+        border: 2px solid #0079bf;
+        height: 8rem;
+      }
     }
   }
 }

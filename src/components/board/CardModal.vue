@@ -19,8 +19,10 @@
       <div class="card_modal__main">
         <div class="main__content">
           <card-module-description/>
+
           <card-module-check-list/>
 
+          <card-module-comments/>
         </div>
         <div class="main__sidebar">
 
@@ -33,9 +35,10 @@
 <script>
 import CardModuleDescription from "./modules/CardModuleDescription";
 import CardModuleCheckList from "./modules/CardModuleCheckList";
+import CardModuleComments from "./modules/CardModuleComments";
 export default {
   name: "CardModal",
-  components: {CardModuleCheckList, CardModuleDescription}
+  components: {CardModuleComments, CardModuleCheckList, CardModuleDescription}
 }
 </script>
 
@@ -99,10 +102,8 @@ export default {
 
 .main {
   &__content {
-    background-color: #7dacff;
     flex-grow: 1;
     width: 56rem;
-    height: 40rem;
   }
 
   &__sidebar {
