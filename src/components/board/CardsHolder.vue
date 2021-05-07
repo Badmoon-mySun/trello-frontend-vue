@@ -29,9 +29,9 @@
       </div>
     </div>
   </div>
-  <teleport to="body">
-    <card-modal/>
-  </teleport>
+<!--  <teleport to="body">-->
+<!--    <card-modal/>-->
+<!--  </teleport>-->
 </template>
 
 <script>
