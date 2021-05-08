@@ -6,7 +6,6 @@ export default {
     state: {
         accessToken: null,
         refreshToken: null,
-        user: null
     },
     mutations: {
         SET_ACCESS_TOKEN(state, value) {
@@ -15,56 +14,43 @@ export default {
         SET_REFRESH_TOKEN(state, value) {
             state.refreshToken = value
         },
-        SET_USER (state, user) {
-            state.user = user
-        }
     },
     actions: {
         async singIn({ dispatch }, credentials) {
-            let config = {
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            }
+            let response = await this.$axios.post('auth/signin', JSON.stringify(credentials))
 
-            try {
-                let response = await axios.post('http://localhost:8888/api/auth/signin', JSON.stringify(credentials), config)
+            let data = response.data
 
-                let data = response.data
-
-                if (dispatch('attempt', data.accessToken, data.refreshToken)) {
-                    return true
-                }
-            } catch (ignore) {}
-
-            return false
+            dispatch('attempt', data.accessToken, data.refreshToken, credentials.rememberMe)
         },
-
-        async attempt(context, accessToken, refreshToken) {
+        async attempt(context, accessToken, refreshToken, remember) {
             context.commit('SET_ACCESS_TOKEN', accessToken)
+            context.commit('SET_REFRESH_TOKEN', refreshToken)
 
-            try {
-                let response = await axios.get('http://localhost:8888/api/auth/me', context.getters.getAuthInHeaders)
+            this.$axios.defaults.headers.Authorization = 'Bearer ' + accessToken
 
-                context.commit('SET_REFRESH_TOKEN', refreshToken)
-                context.commit('SET_USER', response)
-
-                return true
-            } catch (ex) {
-                console.error('failed to get user')
-
-                context.commit('SET_REFRESH_TOKEN', null)
-                context.commit('SET_ACCESS_TOKEN', null)
-                context.commit('SET_USER', null)
-
-                return false
+            if (remember) {
+                await context.dispatch('saveLocal')
             }
         },
-        isAuthorization(context) {
-            return context.getters.getAccessToken !== undefined
-                        && context.getters.getAccessToken !== null
-        }
+        logout(context) {
+            delete axios.defaults.headers.Authorization
 
+            localStorage.removeItem('accessToken')
+            localStorage.removeItem('refreshToken')
+
+            context.commit('SET_REFRESH_TOKEN', null)
+            context.commit('SET_ACCESS_TOKEN', null)
+            context.commit('SET_USER', null)
+        },
+        saveLocal({getters}) {
+            localStorage.setItem('accessToken', getters.getAccessToken)
+            localStorage.setItem('refreshToken', getters.getRefreshToken)
+        },
+        isAuthorized({getters}) {
+            return getters.getAccessToken !== undefined
+                        && getters.getAccessToken !== null
+        }
     },
     getters: {
         getAccessToken(state) {
@@ -72,17 +58,6 @@ export default {
         },
         getRefreshToken(state) {
             return state.refreshToken
-        },
-        getUser(state) {
-            return state.user
-        },
-        getAuthInHeaders(state) {
-            return {
-                headers: {
-                    "Content-Type": "application/json",
-                    'Authorization': 'Bearer ' + state.accessToken
-                }
-            }
         }
     }
 }

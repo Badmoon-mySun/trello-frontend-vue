@@ -16,7 +16,7 @@
        v-model="form.password"
     />
     <div class="form__input_remember_me">
-      <custom-check-box/>
+      <custom-check-box v-model="form.rememberMe"/>
       <span>Remember me</span>
     </div>
     <div class="form__input_field submit_btn">
@@ -27,7 +27,7 @@
 
 <script>
 import LightCustomTextInput from "./LightCustomTextInput";
-import CustomCheckBox from "../CustomCheckBox";
+import CustomCheckBox from "../main/CustomCheckBox";
 import {mapActions} from "vuex";
 
 export default {
@@ -37,7 +37,8 @@ export default {
     return {
       form: {
         email: '',
-        password: ''
+        password: '',
+        rememberMe: false
       },
       error: ''
     }
@@ -48,13 +49,10 @@ export default {
     }),
 
     async onSubmit() {
-      let response = await this.singIn(this.form)
-
-      if (response) {
-        await this.$router.push({ name: 'Board' })
-      } else {
-        this.error = 'Email or password is not right'
-      }
+      this.singIn(this.form)
+          .then(() => this.$router.push('/board/12'))
+          // .catch(() => this.error = 'Email or password is not right')
+      .catch(e => console.log(e))
     }
   }
 }

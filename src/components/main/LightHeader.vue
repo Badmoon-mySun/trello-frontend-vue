@@ -2,7 +2,7 @@
   <header class="header">
     <div class="container-fluid">
       <div class="header__inner">
-        <a href="#" class="header__logo">
+        <router-link to="/" class="header__logo">
           <svg class="logo__img" enable-background="new 0 0 512 512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
             <g>
               <path d="m312.65 124.915h-121.953l56.031-83.009c5.573-8.256 6.131-18.85 1.456-27.645s-13.768-14.261-23.73-14.261h-71.817c-8.911 0-17.22 4.4-22.228 11.771l-125.168 184.251c-12.172 17.808.594 42.033 22.182 42.033h125.428l-50.738 83.672c-10.839 17.876 2.06 40.805 22.977 40.805h64.992c9.005 0 17.364-4.474 22.36-11.967l122.566-183.878c11.892-17.841-.927-41.772-22.358-41.772z"/>
@@ -10,11 +10,11 @@
             </g>
           </svg>
           <h1 class="logo__name">Cratto</h1>
-        </a>
-        <a href="#" class="header__user">
+        </router-link>
+        <div class="header__user">
           <span class="user__name">Anvar</span>
           <img class="user__avatar" src="../../assets/img/climbing-goals.svg" alt="Anvar avatar">
-        </a>
+        </div>
       </div>
     </div>
   </header>

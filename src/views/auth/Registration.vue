@@ -21,7 +21,7 @@
           <span class="intro__body">We are waiting for you in our club, body</span>
         </div>
         <div class="auth__social">
-          <sing-in-with-google-button/>
+          <sing-in-with-vkontakte-button/>
         </div>
         <div class="auth__auth_line">
           <span class="auth_line__line"></span><span class="auth_line__text">or Sign up with Email</span><span
@@ -39,11 +39,11 @@
 </template>
 
 <script>
-import SingInWithGoogleButton from "../../components/auth/SingInWithGoogleButton";
+import SingInWithVkontakteButton from "../../components/auth/SingInWithVkontakteButton";
 import RegistrationForm from "../../components/auth/RegistrationForm";
 export default {
 name: "Registration",
-  components: {RegistrationForm, SingInWithGoogleButton}
+  components: {RegistrationForm, SingInWithVkontakteButton}
 }
 </script>
 

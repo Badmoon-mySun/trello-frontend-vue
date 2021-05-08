@@ -46,14 +46,17 @@ export default {
 
 <style lang="scss">
 body {
-  font-family: 'Roboto', sans-serif;
-  background-image: url("https://trello-backgrounds.s3.amazonaws.com/SharedBackground/2048x1604/06f3f756d346eacde666b4d37828e85e/photo-1617747001512-9abc21e2447a.jpg");
+  background-image: url("./../assets/img/car.png");
   background-position: 50%;
   background-size: cover;
 }
 
 #app {
-  background: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 55%, rgba(0, 0, 0, 0.20) 70%, rgba(0, 0, 0, 0.25) 100%);
+  background: linear-gradient(0deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0) 55%,
+      rgba(0, 0, 0, 0.20) 70%,
+      rgba(0, 0, 0, 0.25) 100%);
 }
 </style>
 

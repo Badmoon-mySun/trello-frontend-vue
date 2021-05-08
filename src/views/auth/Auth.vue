@@ -12,6 +12,12 @@ export default {
 }
 </script>
 
+<style lang="scss">
+body {
+  font-family: 'Comfortaa', sans-serif;
+}
+</style>
+
 <style lang="scss" scoped>
 .slide {
   &-enter-active,

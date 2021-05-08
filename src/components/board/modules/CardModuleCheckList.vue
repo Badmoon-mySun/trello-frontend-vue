@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import CustomCheckBox from "../../CustomCheckBox";
+import CustomCheckBox from "../../main/CustomCheckBox";
 export default {
   name: "CardModuleCheckList",
   components: {CustomCheckBox}

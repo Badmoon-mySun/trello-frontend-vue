@@ -1,4 +1,11 @@
 .form {
+  &__error {
+    color: red;
+    text-align: center;
+    font-size: 90%;
+    font-weight: bold;
+  }
+
   &__input_field {
     margin-bottom: 2rem;
 

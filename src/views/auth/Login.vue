@@ -7,7 +7,7 @@
           <span class="intro__body">Welcome to the club, body</span>
         </div>
         <div class="auth__social">
-          <sing-in-with-google-button/>
+          <sing-in-with-vkontakte-button/>
         </div>
         <div class="auth__auth_line">
           <span class="auth_line__line"></span><span class="auth_line__text">or Sign in with Email</span><span
@@ -42,10 +42,10 @@
 
 
 import LoginForm from "../../components/auth/LoginForm";
-import SingInWithGoogleButton from "../../components/auth/SingInWithGoogleButton";
+import SingInWithVkontakteButton from "../../components/auth/SingInWithVkontakteButton";
 export default {
   name: "Login.vue",
-  components: {SingInWithGoogleButton, LoginForm}
+  components: {SingInWithVkontakteButton, LoginForm}
 }
 </script>
 
