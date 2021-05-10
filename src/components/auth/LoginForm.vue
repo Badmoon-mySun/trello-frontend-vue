@@ -16,7 +16,7 @@
        v-model="form.password"
     />
     <div class="form__input_remember_me">
-      <custom-check-box v-model="form.rememberMe"/>
+      <custom-check-box v-model:checkbox="form.rememberMe"/>
       <span>Remember me</span>
     </div>
     <div class="form__input_field submit_btn">
@@ -38,7 +38,7 @@ export default {
       form: {
         email: '',
         password: '',
-        rememberMe: false
+        // rememberMe: false
       },
       error: ''
     }
@@ -51,10 +51,9 @@ export default {
     async onSubmit() {
       this.singIn(this.form)
           .then(() => this.$router.push('/board/12'))
-          // .catch(() => this.error = 'Email or password is not right')
-      .catch(e => console.log(e))
+          .catch(() => this.error = 'Email or password is not right')
     }
-  }
+  },
 }
 </script>
 

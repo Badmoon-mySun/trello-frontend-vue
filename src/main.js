@@ -2,34 +2,35 @@ import { createApp } from 'vue'
 import App from './App.vue'
 
 import './assets/styles/style.scss'
-import router from './router'
 import store from './store'
 import axios from "axios"
 import {BACKEND_API_URL} from "./utils/config";
+import createCustomRouter from "./router";
+import createCustomAxios from "./utils/customAxios";
 
 const app = createApp(App)
 
-app.config.devtools = true
+const $axios = createCustomAxios(store)
 
-const rootComponent =app .use(store)
+const router = createCustomRouter(store, $axios)
+
+const rootComponent =app.use(store)
     .use(router)
     .mount('#app')
 
+store.$axios = $axios
+app.config.globalProperties.$axios = $axios
 
 
 
-const axiosElem = axios.create({
-    baseURL: BACKEND_API_URL,
-    headers: {
-        'Content-Type': 'application/json'
-    }
-})
+const accessToken = localStorage.getItem('accessToken')
+const refreshToken = localStorage.getItem('refreshToken')
 
-const token = localStorage.getItem('accessToken')
-
-if (token) {
-    axiosElem.defaults.headers.Authorization = 'Bearer ' + token
+if (refreshToken) {
+    store.dispatch('auth/packUp', {
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+        rememberMe: false
+    })
 }
 
-store.$axios = axiosElem
-app.config.globalProperties.$axios = axiosElem

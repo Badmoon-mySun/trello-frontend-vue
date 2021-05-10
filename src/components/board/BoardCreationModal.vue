@@ -3,8 +3,10 @@
     <div class="board_create">
       <form method="post" @submit.prevent="onSubmit">
         <h4 class="board_create__title">Создание доски</h4>
-        <input class="board_create__image_input" type="file" accept="image/*">
-        <textarea class="board_create__title_input" placeholder="Введите название доски..." required></textarea>
+        <input class="board_create__image_input" @change="changeImage"
+               type="file" accept=".png, .jpg, .jpeg">
+        <textarea class="board_create__title_input" v-model="form.title"
+                  placeholder="Введите название доски..." required></textarea>
         <div class="board_create__btn_holder">
           <button type="submit" class="btn_holder__btn">Создать</button>
         </div>
@@ -16,17 +18,33 @@
 <script>
 import LightCustomTextInput from "../auth/LightCustomTextInput";
 import CardModuleComments from "./modules/CardModuleComments";
+import {mapActions} from "vuex";
 export default {
   name: "BoardCreationModal",
   components: {CardModuleComments, LightCustomTextInput},
   data() {
     return {
+      form: {
+        title: null,
+        background: null
+      },
       modal: false
     }
   },
   methods: {
+    ...mapActions({
+      createBoard: 'home/createBoard'
+    }),
     onSubmit() {
+      this.createBoard(this.form)
+      this.$emit('closeModal')
+    },
+    changeImage(event) {
+      let files = event.target.files
 
+      if (files && files.length) {
+        this.form.background = files[0]
+      }
     },
     closeModal(event) {
       if (document.getElementById('modal') === event.target) {

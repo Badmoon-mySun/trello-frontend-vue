@@ -1,13 +1,17 @@
 <template>
-  <light-header/>
-  <main class="main">
-    <board-menu v-bind:members="members" v-bind:name="boardName"/>
-    <div class="board__workspace">
-      <div class="workspace__col" v-for="list in cardLists">
-          <cards-holder v-bind:list="list"/>
-      </div>
+  <div class="board">
+    <div class="container">
+      <light-header/>
+      <main class="main">
+        <board-menu v-bind:members="members" v-bind:name="boardName"/>
+        <div class="board__workspace">
+          <div class="workspace__col" v-for="list in cardLists">
+            <cards-holder v-bind:list="list"/>
+          </div>
+        </div>
+      </main>
     </div>
-  </main>
+  </div>
 </template>
 
 <script>
@@ -44,23 +48,23 @@ export default {
 
 </script>
 
-<style lang="scss">
-body {
+<style lang="scss" scoped>
+.board {
+  height: 100%;
+  width: 100%;
+
   background-image: url("./../assets/img/car.png");
   background-position: 50%;
   background-size: cover;
 }
 
-#app {
+.container {
   background: linear-gradient(0deg,
       rgba(255, 255, 255, 0) 0%,
       rgba(255, 255, 255, 0) 55%,
       rgba(0, 0, 0, 0.20) 70%,
       rgba(0, 0, 0, 0.25) 100%);
 }
-</style>
-
-<style lang="scss" scoped>
 
 .main {
   width: 100%;

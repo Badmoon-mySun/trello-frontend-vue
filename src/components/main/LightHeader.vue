@@ -11,9 +11,9 @@
           </svg>
           <h1 class="logo__name">Cratto</h1>
         </router-link>
-        <div class="header__user">
-          <span class="user__name">Anvar</span>
-          <img class="user__avatar" src="../../assets/img/climbing-goals.svg" alt="Anvar avatar">
+        <div class="header__user" v-if="fullName">
+          <span class="user__name">{{fullName}}</span>
+          <img class="user__avatar" src="../../assets/img/avatar.png" :alt="fullName + ' avatar'">
         </div>
       </div>
     </div>
@@ -21,8 +21,23 @@
 </template>
 
 <script>
+import {mapActions} from "vuex";
+
 export default {
-  name: "LightHeader"
+  name: "LightHeader",
+  data() {
+    return {
+      fullName: null
+    }
+  },
+  mounted() {
+    this.getNameOrRequest().then(name => this.fullName = name);
+  },
+  methods: {
+    ...mapActions({
+      getNameOrRequest: 'user/getNameOrRequest'
+    })
+  }
 }
 </script>
 

@@ -12,13 +12,17 @@ export default {
   components: {Loader},
   mounted() {
     this.$axios.get('auth/vk?code=' + this.$route.query.code)
-      .then(resp => this.attempt(resp.accessToken, resp.refreshToken, true))
+      .then(response => this.packUp({
+        accessToken: response.data.accessToken,
+        refreshToken: response.data.refreshToken,
+        rememberMe: true
+      }))
       .then(() => this.$router.push({name: 'Home'}))
-      .catch(() => this.$router.push({name: 'Login'}))
+      .catch(w => console.log(w))
   },
   methods: {
     ...mapActions({
-      attempt: 'auth/attempt'
+      packUp: 'auth/packUp'
     })
   }
 }

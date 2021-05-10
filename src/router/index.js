@@ -54,27 +54,30 @@ const routes = [
     }
 ]
 
-const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
-    routes
-})
+function createCustomRouter(store, axios) {
+    const router = createRouter({
+        history: createWebHistory(process.env.BASE_URL),
+        routes
+    })
 
-router.beforeEach((to, from, next) => {
-    if (to.matched.some(record => record.meta.loginRequired)) {
-        if (store.dispatch('auth/isAuthorized')) {
-            next()
-            return
-        }
-        next('/login')
-    } else if (to.matched.some(record => record.meta.anonymousRequired)) {
-        if (store.dispatch('auth/isAuthorized')) {
-            next('/')
-            return
-        }
-        next()
-    } else {
-        next()
-    }
-})
+    router.beforeEach((to, from) => {
+        let isAuth = !!store.getters['auth/getAccessToken']
+        if (to.meta.loginRequired && !isAuth) {
 
-export default router
+            return {
+                path: '/login',
+                query: { redirect: to.fullPath },
+            }
+        } else if (to.meta.anonymousRequired && isAuth) {
+
+            return {
+                path: '/'
+            }
+
+        }
+    })
+
+    return router
+}
+
+export default createCustomRouter
