@@ -50,7 +50,7 @@ export default {
 
     async onSubmit() {
       this.singIn(this.form)
-          .then(() => this.$router.push('/board/12'))
+          .then(() => this.$router.push('/'))
           .catch(() => this.error = 'Email or password is not right')
     }
   },

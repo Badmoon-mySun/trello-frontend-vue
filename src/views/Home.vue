@@ -27,7 +27,7 @@
 <script>
 import LightHeader from "../components/main/LightHeader";
 import BoardCreationModal from "../components/board/BoardCreationModal";
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 import Loader from "../components/main/Loader";
 import {BACKEND_PUBLIC_URL} from "../utils/config";
 
@@ -44,9 +44,9 @@ export default {
     LightHeader
   },
   computed: {
-    boards() {
-      return this.$store.getters['home/getBoards']
-    }
+    ...mapGetters({
+      boards: 'home/getBoards'
+    })
   },
   mounted() {
     this.requestBoards()

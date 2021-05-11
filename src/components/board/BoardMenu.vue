@@ -1,11 +1,13 @@
 <template>
   <div class="board__menu">
-    <div class="menu__board_name">
-      <h2 class="board_name">{{name}}</h2>
+    <div class="test">
+      <div class="menu__board_name">
+        <h2 class="board_name">{{title}}</h2>
+      </div>
     </div>
-    <div class="menu__collaborators" v-for="member in members">
-      <!--   TODO avatar like trello   -->
-      <img class="collaborators_item" src="../../assets/img/women.svg" alt="">
+    <div class="menu__collaborators">
+      <img class="collaborators_item" src="../../assets/img/avatar.png"
+           v-for="member in members" :alt="member.fullName + ' avatar'">
       <button class="collaborators_btn" type="button">Пригласить</button>
     </div>
     <button class="menu__chat_btn" type="button">
@@ -46,9 +48,16 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
   name: "BoardMenu",
-  props: ['members', 'name']
+  computed: {
+    ...mapGetters({
+      title: 'board/getTitle',
+      members: 'board/getMembers'
+    })
+  },
 }
 </script>
 
@@ -65,13 +74,36 @@ export default {
   color: $header-font-color;
 }
 
+.test {
+  min-width: 8rem;
+  position: relative;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+}
+
 .menu {
   &__board_name {
+    position: absolute;
+    height: 100%;
+
+
+    width: 25vw;
+    max-width: 30rem;
+    min-width: 8rem;
+
     font-weight: bold;
     font-size: 150%;
 
     @include header-btn-background;
     cursor: default;
+
+    & .board_name {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   &__collaborators {

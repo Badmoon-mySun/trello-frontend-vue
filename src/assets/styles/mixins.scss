@@ -28,7 +28,6 @@
 }
 
 @mixin header-btn {
-  cursor: pointer;
   border: none;
 
   @include header-btn-background;

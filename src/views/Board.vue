@@ -1,54 +1,74 @@
 <template>
-  <div class="board">
+  <div class="board" v-if="boardId">
     <div class="container">
       <light-header/>
       <main class="main">
-        <board-menu v-bind:members="members" v-bind:name="boardName"/>
+        <board-menu/>
         <div class="board__workspace">
-          <div class="workspace__col" v-for="list in cardLists">
+          <div class="workspace__col" v-for="list in lists">
             <cards-holder v-bind:list="list"/>
+          </div>
+          <div class="workspace__col">
+            <cards-holder-creation/>
           </div>
         </div>
       </main>
     </div>
+  </div>
+  <div class="loader_holder" v-else>
+    <loader/>
   </div>
 </template>
 
 <script>
 import LightHeader from "../components/main/LightHeader";
 import BoardMenu from "../components/board/BoardMenu";
-import DragManager from "../utils/DragManager";
+import dragManager from "../utils/DragManager";
 import CardsHolder from "../components/board/CardsHolder";
-import {mapGetters} from "vuex";
+import {mapActions, mapGetters} from "vuex";
+import Loader from "../components/main/Loader";
+import CardsHolderCreation from "../components/board/CardsHolderCreation";
 
 export default {
   name: "Board",
-  components: {CardsHolder, BoardMenu, LightHeader},
+  components: {CardsHolderCreation, Loader, CardsHolder, BoardMenu, LightHeader},
   data() {
     return {
-      boardId: this.$route.params.boardId,
+      boardIdUrlParam: this.$route.params.boardId,
     }
   },
   mounted() {
-    console.log(this.boardId)
+    dragManager(this.$store, this.$axios)
+
+    // TODO redirect to 404
+    this.loadBoard(this.boardIdUrlParam)
+        .catch(error => console.log(error))
   },
   computed: {
     ...mapGetters({
-      cardLists: 'board/getCardLists',
-      boardName: 'board/getName',
-      members: 'board/getMembers'
+      boardId: 'board/getId',
+      lists: 'board/getCardLists',
     })
   },
   methods: {
-    loadBoard(id) {
-      // TODO load board there
-    },
+    ...mapActions({
+      loadBoard: 'board/requestBoard'
+    })
   }
 }
 
 </script>
 
 <style lang="scss" scoped>
+.loader_holder {
+  min-width: 100vw;
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .board {
   height: 100%;
   width: 100%;

@@ -2,14 +2,14 @@
   <div class="col droppable">
     <div class="cards_holder">
       <div class="cards_holder__cards_header">
-        <span class="cards_header__title">{{list.title}}</span>
+        <span class="cards_header__title">{{ list.title }}</span>
         <button class="cards_header__button" type="button">
           <img src="../../assets/img/folder.svg" alt="Архивировать" width="16" height="16">
         </button>
       </div>
-      <div class="cards_holder__cards">
-        <div @click="cardModal = true" class="card draggable" v-for="card in list.cards">
-          {{card.title}}
+      <div class="cards_holder__cards" :id="list.id">
+        <div @contextmenu="cardModal = true" class="card draggable" v-for="card in list.cards" :id="card.id">
+          {{ card.name }}
         </div>
       </div>
       <div class="cards_holder__cards_bottom">
@@ -17,41 +17,67 @@
           <img src="../../assets/img/plus.svg" alt="" width="32" height="32">
           <span>Добавить карточку</span>
         </button>
-        <div class="cards_bottom__input_add_card">
-          <textarea class="input_add_card__textarea" placeholder="Введите заголовок для этой карточки"></textarea>
-          <div class="input_add_card__add_btn_group">
-            <button class="add_btn_group__add" type="button">Добавить карточку</button>
-            <button class="add_btn_group__close" type="button" v-on:click="hideCardAdding($event)">
-              <img src="../../assets/img/plus.svg" alt="Delete" width="16" height="16">
-            </button>
+        <form method="post" @submit.prevent="onSubmit">
+          <div class="cards_bottom__input_add_card">
+            <textarea class="input_add_card__textarea" v-model="form.name"
+                      placeholder="Введите заголовок для этой карточки"></textarea>
+            <div class="input_add_card__add_btn_group">
+              <button class="add_btn_group__add" type="submit">Добавить карточку</button>
+              <button class="add_btn_group__close" type="button" v-on:click="hideCardAdding($event)">
+                <img src="../../assets/img/plus.svg" alt="Delete" width="16" height="16">
+              </button>
+            </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   </div>
-<!--  <teleport to="body">-->
-<!--    <card-modal/>-->
-<!--  </teleport>-->
+    <teleport to="body" v-if="cardModal">
+      <card-modal @closeModal="closeModal"/>
+    </teleport>
 </template>
 
 <script>
 import CardModal from "./CardModal";
+import {mapActions} from "vuex";
+
 export default {
   name: "CardsHolder",
   components: {CardModal},
   props: ['list'],
   data() {
     return {
-      cardModal: false,
+      form: {
+        name: '',
+        cardListId: this.list.id,
+        position: 0
+      },
+      cardModal: false
     }
   },
   mounted() {
     console.log(this.list)
   },
   methods: {
+    ...mapActions({
+      createCard: 'board/createCard'
+    }),
+    onSubmit(event) {
+      this.createCard(this.form)
+
+      console.log(event.target)
+
+      let btn = event.target.parentNode.firstChild
+      let inputGroup = event.target.firstChild
+
+      btn.style.display = 'block';
+      inputGroup.style.display = 'none'
+
+      this.form.name = ''
+    },
     showCardAdding(event) {
       let btn = event.currentTarget
-      let inputGroup = btn.parentNode.querySelector('.cards_bottom__input_add_card')
+      let inputGroup = btn.parentNode.parentNode.querySelector('.cards_bottom__input_add_card')
 
       btn.style.display = 'none';
       inputGroup.style.display = 'block';
@@ -59,10 +85,13 @@ export default {
 
     hideCardAdding(event) {
       let inputGroup = event.currentTarget.parentNode.parentNode
-      let btn = inputGroup.parentNode.querySelector('.cards_bottom__add_card_btn')
+      let btn = inputGroup.parentNode.parentNode.querySelector('.cards_bottom__add_card_btn')
 
       btn.style.display = 'block';
       inputGroup.style.display = 'none'
+    },
+    closeModal() {
+      this.cardModal = false
     }
   },
 

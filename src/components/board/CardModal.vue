@@ -1,5 +1,5 @@
 <template>
-  <div class="modal">
+  <div class="modal" @click="closeModal">
     <div class="card_modal">
       <div class="card_modal__header">
         <div class="header__title">
@@ -12,7 +12,7 @@
         </div>
         <div class="header__close">
           <button>
-            <img src="../../assets/img/plus.svg" alt="Close" width="16" height="16">
+            <img src="../../assets/img/plus.svg" alt="Close" @click="$emit('closeModal')" width="16" height="16">
           </button>
         </div>
       </div>
@@ -39,7 +39,14 @@ import CardModuleComments from "./modules/CardModuleComments";
 import CardModalSidebar from "./CardModalSidebar";
 export default {
   name: "CardModal",
-  components: {CardModalSidebar, CardModuleComments, CardModuleCheckList, CardModuleDescription}
+  components: {CardModalSidebar, CardModuleComments, CardModuleCheckList, CardModuleDescription},
+  methods: {
+    closeModal(event) {
+      if (document.getElementById('modal') === event.target) {
+        this.$emit('closeModal')
+      }
+    }
+  }
 }
 </script>
 

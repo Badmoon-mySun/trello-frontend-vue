@@ -1,4 +1,4 @@
-export default new function () {
+export default function (store) {
 
     /**
      * составной объект для хранения информации о переносе:
@@ -146,10 +146,17 @@ export default new function () {
         card.style.transform = 'rotate(5deg)'
     }
 
-    function finishDrag() {
+    async function finishDrag() {
         // заменяем тень карточкой
-        dragObject.shadowElement.replaceWith(dragObject.card)
-        dragObject.card.rollbackStyle()
+        let card = dragObject.card
+
+        dragObject.shadowElement.replaceWith(card)
+        card.rollbackStyle()
+
+        let storeCard = await store.dispatch('board/getCardById', dragObject.card.id)
+        console.log(card.parentNode.id)
+        storeCard.cardListId = card.parentNode.id
+        // store.dispatch('board/updateCard', storeCard)
     }
 
     function findDroppable(event) {
